@@ -3,7 +3,15 @@ const axios = require ('axios');
 
 const getActivities = async (req, res) => {
     try {
-        const activities = await Activity.findAll();
+        const activities = await Activity.findAll({
+            include: {
+                model: Country,
+                attributes: ["name", "id"],
+                through: {
+                    attributes: []
+                }
+            }
+        });
         res.send(activities);
     } catch (error) {
         console.log(error)
