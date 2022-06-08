@@ -37,7 +37,7 @@ const createActivity = async (req, res) => {
       },
       where: {
         name: {
-          [Op.in]: countries,
+          [Op.in]: countries, 
         },
       },
     });
