@@ -9,9 +9,13 @@ import SearchBar from "./SearchBar";
 function Home ( ) {
     const dispatch = useDispatch();
     const allCountries = useSelector ((state) => state.allcountries);
-    const renderCountries = useSelector((state) => state.countries);
+    const renderCountries = useSelector((state) => state.countriesfiltered);
     const [loader, setLoader] = useState (false)
 
+    const handleClick = (e) => {
+        e.preventDefault();
+        dispatch(getCountries());
+    }
 
     useEffect(() => {
         dispatch (getCountries())
@@ -21,17 +25,21 @@ function Home ( ) {
     return (
         <div>
             <h1>All countries by now broda</h1>
+            <button onClick={(e) => {handleClick(e)}}> Reload All Countries </button>
             <SearchBar />
             {   
                 loader?
                 renderCountries.map ((country) => {
                     return (
-                        <Cards 
-                        key={country.id} 
-                        flag={country.flag}
-                        name={country.name}
-                        continent={country.continent}
-                        />
+                        <div key={country.id}>
+                            <Link to={`/details/${country.id}`}>
+                                <Cards 
+                                    flag={country.flag}
+                                    name={country.name}
+                                    continent={country.continent}
+                                />
+                            </Link>
+                        </div>
                     )
                 })
                 : 

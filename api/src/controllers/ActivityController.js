@@ -21,7 +21,9 @@ const getActivities = async (req, res) => {
 
 const createActivity = async (req, res) => {
   try {
-    const { name, difficulty, duration, season, countries } = req.body;
+    let { name, difficulty, duration, season, countries } = req.body;
+    duration = parseInt(duration);
+    difficulty = parseInt(difficulty);
     const newActivity = await Activity.create({
       name,
       difficulty,

@@ -1,5 +1,6 @@
 const { Country, Activity, Op } = require("../db");
 const axios = require("axios");
+const {data} = require ('../localApi/allCountries');
 
 const getCountriesApi = async (req, res) => {
   try {
@@ -29,6 +30,32 @@ const getCountriesApi = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+const getCountriesLocal = async (req, res) => {
+  try {
+    const allcountries = data.map( async (country) => {
+      const newCountry = {
+        name: country.name.official,
+        flag: country.flags.png,
+        id: country.cca3,
+        continent: country.region,
+        capital: country.capital ? country.capital[0] : "Not found",
+        subregion: country.subregion ? country.subregion : "Not found",
+        area: country.area,
+        population: country.population,
+      };
+      Country.findOrCreate({
+        where: { id: country.cca3 },
+        defaults: newCountry,
+      });
+      return newCountry;
+      });
+    return allcountries;
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+}
 
 const getCountriesDb = async (req, res) => {
   const name = req.query.name;
@@ -90,7 +117,9 @@ const getCountriesDb = async (req, res) => {
   }
 };
 
+
 module.exports = {
   getCountriesApi,
   getCountriesDb,
+  getCountriesLocal,
 };

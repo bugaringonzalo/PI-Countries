@@ -20,13 +20,27 @@
 const server = require('./src/app.js');
 const { conn } = require('./src/db.js');
 
-const {getCountriesApi} = require('./src/controllers/CountryController');
+const {getCountriesApi, getCountriesLocal} = require('./src/controllers/CountryController');
 
 // Syncing all the models at once.
 conn.sync({ force: true }).then(() => {
   server.listen(3001, async () => {
-    await getCountriesApi();
-    console.log('Countries are ready');
-    console.log('%s listening at 3001'); // eslint-disable-line no-console
+    try {
+      await getCountriesApi();
+      console.log('Countries are ready from the API');
+      console.log('%s listening at 3001'); // eslint-disable-line no-console  
+    } catch (error) {
+      console.log(error);
+    }
+    
+    try{
+      await getCountriesLocal();
+      console.log('Countries are ready locally');
+      console.log('%s listening at 3001'); // eslint-disable-line no-console  
+    }
+    catch (error) {
+      console.log(error);
+    }
+      
   });
 });
