@@ -10,7 +10,7 @@ function Home ( ) {
     const dispatch = useDispatch();
     const allCountries = useSelector ((state) => state.allcountries);
     const renderCountries = useSelector((state) => state.countriesfiltered);
-    const [loader, setLoader] = useState (false)
+    const [loader, setLoader] = useState (false);
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -26,6 +26,11 @@ function Home ( ) {
         <div>
             <h1>All countries by now broda</h1>
             <button onClick={(e) => {handleClick(e)}}> Reload All Countries </button>
+            <Link to={'/create'}>
+                <div>
+                    <button>Create Activity</button>
+                </div>
+            </Link>
             <SearchBar />
             {   
                 loader?

@@ -94,7 +94,7 @@ const getCountriesDb = async (req, res) => {
         where: {
           id: {
             [Op.like]: `%${id}%`,
-          },
+          },  
         },
         include: {
           model: Activity,

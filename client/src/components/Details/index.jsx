@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import { getDetails } from "../../redux/actions";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 
 
 export default function Details (props) {
@@ -15,6 +16,11 @@ export default function Details (props) {
 
     return (
         <div>
+            <Link to={'/'}>
+                <div>
+                    <button>Back to Home</button>
+                </div>
+            </Link>
             <h3>Country Details !</h3>
             {
                 details?.map((country) => {
