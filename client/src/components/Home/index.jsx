@@ -5,15 +5,41 @@ import { getCountries } from '../../redux/actions'
 
 import Cards from '../Home/Cards'
 import SearchBar from "./SearchBar";
+import Filter from "./Filters";
+import Paginate from "./Paginate";
+import Orders from "./Orders";
+
 
 function Home ( ) {
     const dispatch = useDispatch();
-    const allCountries = useSelector ((state) => state.allcountries);
-    const renderCountries = useSelector((state) => state.countriesfiltered);
+    const { countriesfiltered} = useSelector ((state) => state);
+    let page = useSelector((state) => state.page)
     const [loader, setLoader] = useState (false);
+
+    
+    // const [currentPage, setCurrentPage] = useState(1);
+    const [countriesPerPage, setCountriesPerPage] = useState(9);
+    const indexOfLastCountry = page * countriesPerPage;
+    const indexOfFirstCountry = indexOfLastCountry - countriesPerPage;
+    const currentCountries = countriesfiltered.slice(indexOfFirstCountry, indexOfLastCountry);
+    
+    
+    const paginate = (pageNumber) => {
+        page = pageNumber
+        if(pageNumber === 1) {
+            setCountriesPerPage(9);
+            console.log(pageNumber);
+            console.log(countriesPerPage)
+        } else {
+            setCountriesPerPage(10);
+            console.log(pageNumber);
+            console.log(countriesPerPage)
+        }
+    }
 
     const handleClick = (e) => {
         e.preventDefault();
+        page = 1;
         dispatch(getCountries());
     }
 
@@ -32,24 +58,36 @@ function Home ( ) {
                 </div>
             </Link>
             <SearchBar />
-            {   
-                loader?
-                renderCountries.map ((country) => {
-                    return (
-                        <div key={country.id}>
-                            <Link to={`/details/${country.id}`}>
-                                <Cards 
-                                    flag={country.flag}
-                                    name={country.name}
-                                    continent={country.continent}
-                                />
-                            </Link>
-                        </div>
-                    )
-                })
-                : 
-                <div> Loading </div>
-            } 
+            <Filter />
+            <Orders />
+            
+            <div className="paginator">
+                <Paginate
+                    countriesPerPage={countriesPerPage}
+                    totalCountries={countriesfiltered.length}
+                    paginate={paginate}
+                />
+            </div>
+            <div className="cards-render">
+                {   
+                    loader && currentCountries?
+                    currentCountries.map ((country) => {
+                        return (
+                            <div key={country.id}>
+                                <Link to={`/details/${country.id}`}>
+                                    <Cards 
+                                        flag={country.flag}
+                                        name={country.name}
+                                        continent={country.continent}
+                                    />
+                                </Link>
+                            </div>
+                        )
+                    })
+                    : 
+                    <div> Loading </div>
+                }
+            </div>
         </div>
     )
 }

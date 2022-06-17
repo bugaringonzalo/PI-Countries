@@ -18,7 +18,7 @@ function Form() {
     return errors;
 
     /* if (/[1-5])/g.test(input.difficulty)) {
-            errors.difficulty = 'Difficulty must be between numbers 1 and 5'
+            errors.difficulty = 'Difficulty must be between numbers 1 and 5' 
         } */
   };
 
