@@ -10,6 +10,7 @@ export const FILTER_CONTINENT = 'FILTER_CONTINENT';
 export const FILTER_ACTIVITY = 'FILTER_ACTIVITY';
 export const ORDER_NAME = 'ORDER_NAME';
 export const ORDER_POPULATION = 'ORDER_POPULATION';
+export const SET_PAGE = 'SET_PAGE';
 
 
 export function getCountries ( ) {
@@ -86,6 +87,13 @@ export function orderName (payload) {
 export function orderPopulation (payload) {
     return {
         type: ORDER_POPULATION,
+        payload
+    }
+}
+
+export function setPage (payload) {
+    return {
+        type: SET_PAGE,
         payload
     }
 }

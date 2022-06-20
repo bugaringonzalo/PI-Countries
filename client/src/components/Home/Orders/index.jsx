@@ -4,9 +4,11 @@ import { orderName } from "../../../redux/actions";
 
 function Orders () {
     const dispatch = useDispatch();
+    let page = useSelector((state) => state.page)
 
     const handleSelectOrderName = (e) => {
         console.log('Order name changed');
+        page = 1;
         dispatch(orderName(e.target.value));
     }
 

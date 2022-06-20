@@ -58,12 +58,19 @@ function rootReducer (state= initialState, action) {
             }
         case FILTER_ACTIVITY:
             const countriesToActivities = state.allcountries
-            const filteredByActivities = countriesToActivities.filter(country => country.activities.name === action.payload )
-
+            const filteredWithActivities = countriesToActivities.filter((country) => country.activities.length > 0)
+            const arrayWithCountriesWithActivities = [];
+            filteredWithActivities.forEach((country) => {
+                country.activities.forEach((activity) => {
+                    if (activity.name === action.payload) {
+                        arrayWithCountriesWithActivities.push(country)
+                    }
+                } )
+            } )
             return {
                 ...state,
                 page: 1,
-                countriesfiltered: filteredByActivities
+                countriesfiltered: arrayWithCountriesWithActivities
             }
         case ORDER_NAME:
             let orderedByName = 

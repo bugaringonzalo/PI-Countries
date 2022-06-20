@@ -69,7 +69,7 @@ const getCountriesDb = async (req, res) => {
         },
         where: {
           name: {
-            [Op.like]: `%${name}%`,
+            [Op.iLike]: `%${name}%`
           },
         },
       });
@@ -108,7 +108,15 @@ const getCountriesDb = async (req, res) => {
         ? res.send(countryId)
         : res.status(404).send("Country not found");
     } else {
-      const countries = await Country.findAll();
+      const countries = await Country.findAll({
+        include : {
+          model: Activity,
+          attributes : ['name','id'],
+          through: {
+            attributes: []
+          },
+        }
+      });
       res.send(countries);
     }
   } catch (error) {
