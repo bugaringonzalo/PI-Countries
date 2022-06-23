@@ -18,7 +18,7 @@ function Orders () {
     }
 
     return (
-        <div>
+        <div className="orders-container">
             <div>
                 <span>Order By Name</span>
                 <select name="orderName" id="" onChange={(e) => handleSelectOrderName(e)}>

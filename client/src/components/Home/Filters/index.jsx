@@ -27,7 +27,7 @@ function Filter () {
     }, [dispatch, allActivities])
 
     return (
-        <div>
+        <div className="filter-container">
             <select name="continent" id="" onChange={(e) => handleSelectContinent(e)}>
                 <option value="All">All</option>
                 <option value="Africa">Africa</option>

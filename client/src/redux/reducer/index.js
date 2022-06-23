@@ -1,4 +1,4 @@
-import { CLEAR_DETAIL, COUNTRIES } from "../actions";
+import { COUNTRIES } from "../actions";
 import { COUNTRYBYNAME } from "../actions";
 import { DETAILS } from "../actions";
 import { GET_ACTIVITIES } from "../actions";

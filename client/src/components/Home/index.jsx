@@ -54,41 +54,49 @@ function Home ( ) {
 
     return (
         <div className="container">
-            <h1>All countries by now broda</h1>
-            <button onClick={(e) => {handleClick(e)}}> Reload All Countries </button>
-            <Link to={'/create'}>
-                <div>
-                    <button>Create Activity</button>
+            <div className="container-fluid">
+                <div className="h1welcometext">
+                    <h1>COUNTRIES APP</h1>
                 </div>
-            </Link>
-            <SearchBar />
-            <Filter />
-            <Orders />
-            
-            <div className="paginator">
-                <Paginate
-                    countriesPerPage={countriesPerPage}
-                    totalCountries={countriesfiltered.length}
-                    paginate={paginate}
-                />
-            </div>
-            <div className="cards-render">
-                {   
-                    !loader ? <LoaderSVG/> :
-                    currentCountries?.map ((country) => {
-                        return (
-                            <div key={country.id}>
-                                <Link to={`/details/${country.id}`}>
-                                    <Cards 
-                                        flag={country.flag}
-                                        name={country.name}
-                                        continent={country.continent}
-                                    />
-                                </Link>
-                            </div>
-                        )
-                    })
-                }
+                <div className="navbar">
+                    <button className="button-home" onClick={(e) => {handleClick(e)}}> Reload All Countries </button>
+                    <Link to={'/create'}>
+                        <div>
+                            <button className="button-home">Create Activity</button>
+                        </div>
+                    </Link>
+                    <SearchBar />
+                </div>
+                <div className="filter-orders">
+                    <Filter />
+                    <Orders />
+                </div>
+                <div className="paginator">
+                    <Paginate
+                        countriesPerPage={countriesPerPage}
+                        totalCountries={countriesfiltered.length}
+                        paginate={paginate}
+                    />
+                </div>
+                <div className="cards-container">
+                    {   
+                        !loader ? <LoaderSVG/> :
+                        currentCountries?.map ((country) => {
+                            return (
+                                <div key={country.id}>
+                                    
+                                        <Cards 
+                                            flag={country.flag}
+                                            name={country.name}
+                                            continent={country.continent}
+                                            id={country.id}
+                                        />
+                                
+                                </div>
+                            )
+                        })
+                    }
+                </div>
             </div>
         </div>
     )

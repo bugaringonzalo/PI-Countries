@@ -123,47 +123,50 @@ function Form() {
   }, [input, setFilled]);
 
   return (
-    <div>
+    <div className="form-container-all">
       <Link to={"/home"}>
-        <div>
-          <button>Back to Home</button>
-        </div>
+        <button className="details-button">
+            <svg height="16" width="20" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024"><path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path></svg>
+            <span>Back to Home!</span>
+        </button>
       </Link>
       <div>
         <h3>Activity Creator</h3>
       </div>
-      <form onSubmit={(e) => handleSubmit(e)}>
-        <div>
-          <label>Name</label>
-          <input
-            type="text"
-            name="name"
-            placeholder="Insert Name.."
-            value={input.name}
+      <form className="form-centering" onSubmit={(e) => handleSubmit(e)}>
+        <div className="input-group-form">
+          <input 
+            type="text" 
+            name="name" 
+            value={input.name} 
+            className="input-form" 
             onChange={(e) => handleChange(e)}
           />
-          {errors.name ? <p>{errors.name}</p> : null}
+          <label className="user-label-form">First Name</label>
+          {errors.name ? <p>{errors.name}</p> : null} 
         </div>
-        <div>
-          <label>Difficulty</label>
+        <div className="input-group-form">
           <input
             type="text"
             name="difficulty"
             placeholder="Insert Difficulty.."
             value={input.difficulty}
+            className="input-form" 
             onChange={(e) => handleChange(e)}
           />
+          <label className="user-label-form">Difficulty</label>
           {errors.difficulty ? <p>{errors.difficulty}</p> : null}
         </div>
-        <div>
-          <label>Duration</label>
+        <div className="input-group-form">
           <input
             type="text"
             name="duration"
             placeholder="Insert Duration.."
+            className="input-form" 
             value={input.duration}
             onChange={(e) => handleChange(e)}
           />
+          <label className="user-label-form">Duration</label>
           {errors.duration ? <p>{errors.duration}</p> : null}
         </div>
         <div>
