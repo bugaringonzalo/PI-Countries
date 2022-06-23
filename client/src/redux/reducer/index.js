@@ -1,4 +1,4 @@
-import { COUNTRIES } from "../actions";
+import { CLEAR_DETAIL, COUNTRIES } from "../actions";
 import { COUNTRYBYNAME } from "../actions";
 import { DETAILS } from "../actions";
 import { GET_ACTIVITIES } from "../actions";
@@ -6,7 +6,9 @@ import { POST_ACTIVITY } from "../actions";
 import { FILTER_CONTINENT } from "../actions";
 import { FILTER_ACTIVITY } from "../actions";
 import { ORDER_NAME } from "../actions";
+import { SET_PAGE } from "../actions";
 import { ORDER_POPULATION } from "../actions";
+
 
 
 const initialState = {
@@ -96,10 +98,27 @@ function rootReducer (state= initialState, action) {
             });
             return {
                 ...state,
-                page: 1,
                 countriesfiltered : orderedByName
             }
-
+            case ORDER_POPULATION:
+                let orderByPop =
+                action.payload === 'mintomax' ?
+                state.countriesfiltered.sort((a,b) => {
+                    return a.population - b.population ;
+                })
+                :
+                state.countriesfiltered.sort((a,b) => {
+                    return b.population - a.population ;
+                })
+                return {
+                    ...state,
+                    countriesfiltered: orderByPop
+                }
+            case SET_PAGE:
+                return {
+                    ...state,
+                    page: action.payload
+                }
         default:
             return state;
     }

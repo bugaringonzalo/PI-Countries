@@ -1,25 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { postActivity, getCountries } from "../../redux/actions";
 import { useDispatch, useSelector } from "react-redux";
+
 
 function Form() {
   const dispatch = useDispatch();
   const countries = useSelector((e) => e.allcountries);
 
+  const [filled, setFilled] = useState(false);
+
   const validate = (input) => {
     let errors = {};
-    if (!input.name) {
+    if (!input.name.trim()) {
       errors.name = "Activity Name is required";
-    } else if (!/[^1-4]/g.test(input.name)) {
+    } else if (!/[^1-4]/g.test(input.name.trim())) {
       errors.name = "Activity name must be letters only";
+    }
+
+    if (!input.difficulty) {
+      errors.difficulty = "Activity difficulty is required";
+    } else if (input.difficulty > 5 || input.difficulty < 1) {
+      errors.difficulty = "Activity difficulty must be between 1 and 5";
+    }
+
+    if (!input.duration) {
+      errors.duration = "Activity duration is required";
+    } 
+
+    if (input.season.length === 0) {
+      errors.season = "Activity season is required";
+    } 
+
+    if (input.countries.length === 0) {
+      errors.countries = "Activity countries is required";
     }
 
     return errors;
 
-    /* if (/[1-5])/g.test(input.difficulty)) {
-            errors.difficulty = 'Difficulty must be between numbers 1 and 5' 
-        } */
   };
 
   const [input, setInput] = useState({
@@ -35,6 +53,7 @@ function Form() {
     difficulty: "",
     duration: "",
     season: "",
+    countries: "",
   });
 
   const handleChange = (e) => {
@@ -83,24 +102,29 @@ function Form() {
     });
   };
 
-  /* const handleDeleteCountries = (e) => {
-        // e.preventDefault();
+  const handleDeleteCountries = (e) => {
         setInput({
             ...input,
             countries: input.countries.filter((country) => country !== e)
         })
         console.log('Country Deleted')
         console.log(input);
-    } */
+    }
 
   useEffect(() => {
-    dispatch(getCountries());
-    console.log("useEffect displayed/countries loaded");
-  }, [dispatch]);
+    if(
+      input.name.length > 0 &&
+      input.difficulty.length > 0 &
+      input.duration.length > 0 &
+      input.season.length > 0 &
+      input.countries.length > 0 
+    ) { setFilled(true) }
+    else { setFilled(false) }
+  }, [input, setFilled]);
 
   return (
     <div>
-      <Link to={"/"}>
+      <Link to={"/home"}>
         <div>
           <button>Back to Home</button>
         </div>
@@ -140,10 +164,12 @@ function Form() {
             value={input.duration}
             onChange={(e) => handleChange(e)}
           />
+          {errors.duration ? <p>{errors.duration}</p> : null}
         </div>
         <div>
           <label>Season</label>
           <select name="season" id="" onChange={(e) => handleSelectSeason(e)}>
+
             <option value="Winter">Winter</option>
             <option value="Summer">Summer</option>
             <option value="Autumn">Autumn</option>
@@ -161,21 +187,28 @@ function Form() {
               );
             })}
           </select>
-          {input.countries.length > 0 ? (
-            <div>
-              {input.countries.map((country, index) => {
-                return (
-                  <div key={index}>
-                    <span>{country}</span>
-                    {/* <button onClick={() => handleDeleteCountries(country)}> Delete X</button> */}
-                  </div>
-                );
-              })}
-            </div>
-          ) : null}
         </div>
-        <button type="submit">Create Activity</button>
+        <div>
+          <button 
+          type={"submit"}
+          disabled = { !filled }
+          >Create Activity</button>
+        </div>
       </form>
+      <div>
+        {input.countries.length > 0 ? (
+              <div>
+                {input.countries.map((country, index) => {
+                  return (
+                    <div key={index}>
+                      <span>{country}</span>
+                      <button onClick={() => handleDeleteCountries(country)}> Delete X</button>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : null}
+      </div>
     </div>
   );
 }

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { getCountries } from '../../redux/actions'
+import { filterContinent, getCountries, setPage } from '../../redux/actions'
 
 import Cards from '../Home/Cards'
 import SearchBar from "./SearchBar";
 import Filter from "./Filters";
 import Paginate from "./Paginate";
 import Orders from "./Orders";
+import { ReactComponent as LoaderSVG } from '../../assets/loader.svg';
+
 
 
 function Home ( ) {
@@ -25,7 +27,7 @@ function Home ( ) {
     
     
     const paginate = (pageNumber) => {
-        page = pageNumber
+        dispatch(setPage(pageNumber));
         if(pageNumber === 1) {
             setCountriesPerPage(9);
             console.log(pageNumber);
@@ -41,6 +43,8 @@ function Home ( ) {
         e.preventDefault();
         page = 1;
         dispatch(getCountries());
+        dispatch(setPage(1))
+        dispatch(filterContinent('All'))
     }
 
     useEffect(() => {
@@ -49,7 +53,7 @@ function Home ( ) {
     },[dispatch])
 
     return (
-        <div>
+        <div className="container">
             <h1>All countries by now broda</h1>
             <button onClick={(e) => {handleClick(e)}}> Reload All Countries </button>
             <Link to={'/create'}>
@@ -70,8 +74,8 @@ function Home ( ) {
             </div>
             <div className="cards-render">
                 {   
-                    loader && currentCountries?
-                    currentCountries.map ((country) => {
+                    !loader ? <LoaderSVG/> :
+                    currentCountries?.map ((country) => {
                         return (
                             <div key={country.id}>
                                 <Link to={`/details/${country.id}`}>
@@ -84,8 +88,6 @@ function Home ( ) {
                             </div>
                         )
                     })
-                    : 
-                    <div> Loading </div>
                 }
             </div>
         </div>

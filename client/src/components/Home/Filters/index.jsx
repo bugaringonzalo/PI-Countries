@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { filterActivity, filterContinent, getActivities } from "../../../redux/actions";
+import { filterActivity, filterContinent, getActivities, setPage } from "../../../redux/actions";
 
 function Filter () {
     const dispatch = useDispatch();
     const allActivities = useSelector((state) => state.activities)
+
+    
     
     const handleSelectContinent = (e) => {
         e.preventDefault();
         console.log('Continent filter changed');
         dispatch(filterContinent(e.target.value));
+        dispatch(setPage(1))
     }
 
     const handleSelectActivity = (e) => {
         e.preventDefault();
         console.log('Activity filter changed')
         dispatch(filterActivity(e.target.value))
+        dispatch(setPage(1))
     }
     
     useEffect(() => {

@@ -75,7 +75,7 @@ const getCountriesDb = async (req, res) => {
       });
       countryName.length
         ? res.send(countryName)
-        : res.status(404).send("Country not found");
+        : res.status(404).send(`Country with name: ${name} not found`);
     } else if (id) {
       const countryId = await Country.findAll({
         attributes: [
@@ -106,7 +106,7 @@ const getCountriesDb = async (req, res) => {
       });
       countryId.length
         ? res.send(countryId)
-        : res.status(404).send("Country not found");
+        : res.status(404).send(`Country with id: ${id} not found`);
     } else {
       const countries = await Country.findAll({
         include : {

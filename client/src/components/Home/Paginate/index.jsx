@@ -12,15 +12,16 @@ function Paginate ({countriesPerPage, totalCountries, paginate}) {
     return (
         //Renderizo y mapeo pageNumbers y devuelvo en ese arreglo cada uno de los numeros desde el 1 hasta totalPages
         <>
-            <ul className="pagination">
+            <div className="pagination">
                 {pageNumbers.map((number) => (
-                    <li key={number} className="page-item">
-                        <button className="page-link" onClick={() => paginate(number)}>
-                            {number}
-                        </button>
-                    </li>
-                ))}
-            </ul>
+                        <li key={number} >
+                            <button onClick={() => paginate(number)} className="page-link">
+                                {number}
+                            </button>
+                        </li>
+                    ))
+                }
+            </div>
         </>
     );
 }

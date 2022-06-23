@@ -1,18 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux"; 
-import { orderName } from "../../../redux/actions";
+import React from "react";
+import { useDispatch } from "react-redux"; 
+import { orderName, setPage, orderPopulation } from "../../../redux/actions";
 
 function Orders () {
     const dispatch = useDispatch();
-    let page = useSelector((state) => state.page)
 
     const handleSelectOrderName = (e) => {
         console.log('Order name changed');
-        page = 1;
+        dispatch(setPage(1))
         dispatch(orderName(e.target.value));
     }
 
-
+    const handleSelectOrderPop = (e) => {
+        console.log('Order Pop changed')
+        dispatch(orderPopulation(e.target.value))
+        dispatch(setPage(1));
+    }
 
     return (
         <div>
@@ -25,6 +28,10 @@ function Orders () {
             </div>
             <div>
                 <span>Order By Population</span>
+                <select name="orderPop"  id="" onChange={(e) => handleSelectOrderPop(e)}>
+                    <option value="mintomax">Min to Max Pop</option>
+                    <option value="maxtomin">Max to Min Pop</option>
+                </select>
             </div>
         </div>
     )
