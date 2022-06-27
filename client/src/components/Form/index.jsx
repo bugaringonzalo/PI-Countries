@@ -102,21 +102,13 @@ function Form() {
     });
   };
 
-  const handleDeleteCountries = (e) => {
-        setInput({
-            ...input,
-            countries: input.countries.filter((country) => country !== e)
-        })
-        console.log('Country Deleted')
-        console.log(input);
-    }
 
   useEffect(() => {
     if(
       input.name.length > 0 &&
-      input.difficulty.length > 0 &
-      input.duration.length > 0 &
-      input.season.length > 0 &
+      input.difficulty.length > 0 &&
+      input.duration.length > 0 &&
+      input.season.length > 0 &&
       input.countries.length > 0 
     ) { setFilled(true) }
     else { setFilled(false) }
@@ -205,7 +197,6 @@ function Form() {
                   return (
                     <div key={index}>
                       <span>{country}</span>
-                      <button onClick={() => handleDeleteCountries(country)}> Delete X</button>
                     </div>
                   );
                 })}

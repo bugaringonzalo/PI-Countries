@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { filterContinent, getCountries, setPage } from '../../redux/actions'
+import { filterContinent, getCountries, setPage, filterPopulation } from '../../redux/actions'
 
 import Cards from '../Home/Cards'
 import SearchBar from "./SearchBar";
@@ -14,7 +14,7 @@ import { ReactComponent as LoaderSVG } from '../../assets/loader.svg';
 
 function Home ( ) {
     const dispatch = useDispatch();
-    const { countriesfiltered} = useSelector ((state) => state);
+    const { countriesfiltered } = useSelector ((state) => state);
     let page = useSelector((state) => state.page)
     const [loader, setLoader] = useState (false);
 
@@ -37,6 +37,11 @@ function Home ( ) {
             console.log(pageNumber);
             console.log(countriesPerPage)
         }
+    }
+
+    const filterPop = () => {
+        console.log('filtrasteeeee')
+        dispatch(filterPopulation())
     }
 
     const handleClick = (e) => {
@@ -71,6 +76,7 @@ function Home ( ) {
                     <Filter />
                     <Orders />
                 </div>
+                <button onClick={() => filterPop()}>ORDER POP MAYOR A 50000</button>
                 <div className="paginator">
                     <Paginate
                         countriesPerPage={countriesPerPage}

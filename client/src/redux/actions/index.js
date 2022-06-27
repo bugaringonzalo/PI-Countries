@@ -11,6 +11,7 @@ export const FILTER_ACTIVITY = 'FILTER_ACTIVITY';
 export const ORDER_NAME = 'ORDER_NAME';
 export const ORDER_POPULATION = 'ORDER_POPULATION';
 export const SET_PAGE = 'SET_PAGE';
+export const ORDER_MAX_POP = 'ORDER_MAX_POP'
 
 
 export function getCountries ( ) {
@@ -27,6 +28,7 @@ export function getCountries ( ) {
         }
     }
 }
+
 
 export function getByName (name) {
     return async function (dispatch) {
@@ -56,6 +58,7 @@ export function getDetails (id) {
     }
 }
 
+
 export function getActivities() {
     return async function(dispatch) {
         try {
@@ -70,7 +73,7 @@ export function getActivities() {
     }
 }
 
-export function postActivity (payload) {
+/* export function postActivity (payload) {
     return async function (dispatch) {
         try {
             const newActivity = await axios.post('http://localhost:3001/activities/', payload);
@@ -83,6 +86,23 @@ export function postActivity (payload) {
         }
        
     }
+} */
+
+export function postActivity (payload) {
+    return function (dispatch) {
+        try {
+            axios.post('http://localhost:3001/activities/', payload)
+                .then((newActivity) => {
+                    dispatch({
+                        type: POST_ACTIVITY,
+                        payload: newActivity
+                    })
+                })
+                .catch((error) => console.log(error))
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
 
 export function filterContinent (payload) {
@@ -91,6 +111,7 @@ export function filterContinent (payload) {
         payload
    }
 }
+
 
 export function filterActivity (payload) {
     return {
@@ -117,6 +138,13 @@ export function setPage (payload) {
     console.log('page has changed to: ', payload);
     return {
         type: SET_PAGE,
+        payload
+    }
+}
+
+export function filterPopulation (payload) {
+    return {
+        type : ORDER_MAX_POP,
         payload
     }
 }

@@ -8,6 +8,7 @@ import { FILTER_ACTIVITY } from "../actions";
 import { ORDER_NAME } from "../actions";
 import { SET_PAGE } from "../actions";
 import { ORDER_POPULATION } from "../actions";
+import { ORDER_MAX_POP } from "../actions";
 
 
 
@@ -118,6 +119,14 @@ function rootReducer (state= initialState, action) {
                 return {
                     ...state,
                     page: action.payload
+                }
+            case ORDER_MAX_POP:
+                let countriesToFilter = state.allcountries;
+                let minPop = countriesToFilter.filter((country) => country.population < 50000 )
+                
+                return {
+                    ...state,
+                    countriesfiltered: minPop
                 }
         default:
             return state;
